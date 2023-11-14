@@ -4,7 +4,8 @@ import { Server } from 'socket.io'; // Cambiado a Server
 
 import { webRouter } from './routers/web.router.js';
 import { apiRouter } from './routers/api.router.js';
-import { productManager } from './services/productManager.js';
+// Cambiado a productoManagerInstance
+import { productoManagerInstance as productManager } from './services/productManager.js';
 
 const app = express();
 
@@ -16,9 +17,7 @@ app.engine('handlebars', engine());
 app.set('views', './views');
 app.set('view engine', 'handlebars');
 
-
-
-const ioServer = new Server(server); // Cambiado a Server
+const ioServer = new Server(server);
 
 app.use((req, res, next) => {
   req['io'] = ioServer;
@@ -30,7 +29,6 @@ app.use('/static', express.static('./static'));
 
 app.use('/', webRouter);
 app.use('/api', apiRouter);
-
 
 ioServer.on('connection', async (socket) => {
   console.log('nueva conexion: ', socket.id);
@@ -46,4 +44,3 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send(`Internal Server Error: ${err.message}`);
 });
-

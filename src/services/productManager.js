@@ -1,9 +1,9 @@
-import fs from 'fs/promises'
+import fs from 'fs/promises';
 
-export class productManager {
+export class ProductoManager {
   constructor(ruta) {
-    this.ruta = ruta,
-    this.products = []
+    this.ruta = ruta;
+    this.products = [];
   }
 
   async agregar(nuevoProducto) {
@@ -11,16 +11,14 @@ export class productManager {
     productos.push(nuevoProducto);
     await fs.writeFile(this.ruta, JSON.stringify(productos, null, 2));
   }
-  
 
   async obtenerTodos() {
-    return JSON.parse(await fs.readFile(this.ruta, 'utf-8'))
+    return JSON.parse(await fs.readFile(this.ruta, 'utf-8'));
   }
 
   async borrarTodos() {
-    await fs.writeFile(this.ruta, '[]')
+    await fs.writeFile(this.ruta, '[]');
   }
-
 }
 
-export const productoManager = new productManager('./db/productos.json')
+export const productoManagerInstance = new ProductoManager('./db/productos.json');

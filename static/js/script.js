@@ -1,5 +1,3 @@
-import { io } from 'socket.io-client';
-
 const socket = io();
 
 const ulProductos = document.querySelector('#productos');
@@ -11,16 +9,16 @@ productoForm.addEventListener('submit', event => {
     if (productoInput.value) {
         socket.emit('nuevoProducto', productoInput.value);
         productoInput.value = '';
-  }
+    }
 });
 
 socket.on('productos', productos => {
     if (ulProductos) {
         ulProductos.innerHTML = '';
-    for (const produc of productos) {
-        const liProductos = document.createElement('li');
-        liProductos.innerHTML = produc;
-        ulProductos.appendChild(liProductos);
+        for (const produc of productos) {
+            const liProductos = document.createElement('li');
+            liProductos.innerHTML = JSON.stringify(produc);
+            ulProductos.appendChild(liProductos);
+        }
     }
-  }
 });
