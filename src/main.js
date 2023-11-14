@@ -1,10 +1,9 @@
 import express from 'express';
 import { engine } from 'express-handlebars';
-import { Server } from 'socket.io'; // Cambiado a Server
+import { Server } from 'socket.io';
 
 import { webRouter } from './routers/web.router.js';
 import { apiRouter } from './routers/api.router.js';
-// Cambiado a productoManagerInstance
 import { productoManagerInstance as productManager } from './services/productManager.js';
 
 const app = express();
@@ -30,8 +29,9 @@ app.use('/static', express.static('./static'));
 app.use('/', webRouter);
 app.use('/api', apiRouter);
 
+// Manejo de eventos para 'productos'
 ioServer.on('connection', async (socket) => {
-  console.log('nueva conexion: ', socket.id);
+  console.log('Nueva conexión para productos: ', socket.id);
   socket.emit('productos', await productManager.obtenerTodos());
 
   socket.on('nuevoProducto', async (producto) => {
@@ -39,6 +39,13 @@ ioServer.on('connection', async (socket) => {
     ioServer.sockets.emit('producto', await productManager.obtenerTodos());
   });
 });
+
+// Manejo de eventos para 'realTimeProductos'
+  socket.on('nuevoRealTimeProducto', async (producto) => {
+    await productManager.agregar(producto);
+    ioServer.sockets.emit('realTimeProducto', await productManager.obtenerTodos());
+  });
+
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
