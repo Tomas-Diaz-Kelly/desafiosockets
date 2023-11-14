@@ -6,11 +6,12 @@ export class productManager {
     this.products = []
   }
 
-  async agregar(producto) {
-    const products= JSON.parse(await fs.readFile(this.ruta, 'utf-8'))
-    producto.push(producto)
-    await fs.writeFile(this.ruta, JSON.stringify(producto, null, 2))
+  async agregar(nuevoProducto) {
+    const productos = JSON.parse(await fs.readFile(this.ruta, 'utf-8'));
+    productos.push(nuevoProducto);
+    await fs.writeFile(this.ruta, JSON.stringify(productos, null, 2));
   }
+  
 
   async obtenerTodos() {
     return JSON.parse(await fs.readFile(this.ruta, 'utf-8'))
