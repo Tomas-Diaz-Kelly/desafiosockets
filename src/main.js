@@ -38,13 +38,14 @@ ioServer.on('connection', async (socket) => {
     await productManager.agregar(producto);
     ioServer.sockets.emit('producto', await productManager.obtenerTodos());
   });
+
+  // Manejo de eventos para 'realTimeProductos'
+    socket.on('nuevoRealTimeProducto', async (producto) => {
+      await productManager.agregar(producto);
+      ioServer.sockets.emit('realTimeProducto', await productManager.obtenerTodos());
+    });
 });
 
-// Manejo de eventos para 'realTimeProductos'
-  socket.on('nuevoRealTimeProducto', async (producto) => {
-    await productManager.agregar(producto);
-    ioServer.sockets.emit('realTimeProducto', await productManager.obtenerTodos());
-  });
 
 
 app.use((err, req, res, next) => {
