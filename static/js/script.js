@@ -3,7 +3,7 @@ const socket = io();
 const ulProductos = document.querySelector('#productos');
 const productoForm = document.querySelector('#productoForm');
 const productoInput = document.querySelector('#productoInput');
-
+/*
 productoForm.addEventListener('submit', event => {
     event.preventDefault();
     if (productoInput.value) {
@@ -11,7 +11,7 @@ productoForm.addEventListener('submit', event => {
         productoInput.value = '';
     }
 });
-
+*/
 socket.on('productos', productos => {
     if (ulProductos) {
         ulProductos.innerHTML = '';
