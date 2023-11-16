@@ -42,7 +42,7 @@ ioServer.on('connection', async (socket) => {
   // Manejo de eventos para 'realTimeProductos'
     socket.on('nuevoRealTimeProducto', async (producto) => {
       await productManager.agregar(producto);
-      ioServer.sockets.emit('realTimeProducto', await productManager.obtenerTodos());
+      ioServer.sockets.emit('productos', await productManager.obtenerTodos());
     });
 });
 
